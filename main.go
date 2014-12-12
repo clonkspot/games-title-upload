@@ -60,5 +60,5 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", uploadHandler)
 
-	log.Fatal(http.ListenAndServe(":63230", nil))
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), nil))
 }
