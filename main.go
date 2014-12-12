@@ -37,7 +37,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	path := "." + r.URL.Path
-	os.MkdirAll(filepath.Dir(path), 0666)
+	os.MkdirAll(filepath.Dir(path), 0777)
 
 	out, err := os.Create(path)
 	if err != nil {
