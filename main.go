@@ -1,13 +1,13 @@
 package main
 
 import (
-	"net/http"
-	"os"
+	"bytes"
+	"fmt"
+	"image/png"
 	"io"
 	"log"
-	"fmt"
-	"bytes"
-	"image/png"
+	"net/http"
+	"os"
 	"path/filepath"
 )
 
@@ -61,5 +61,5 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/", uploadHandler)
 
-	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), nil))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 }
