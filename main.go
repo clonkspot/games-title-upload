@@ -55,6 +55,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(200)
+	log.Println("->", path, "\t", n)
 }
 
 func main() {
