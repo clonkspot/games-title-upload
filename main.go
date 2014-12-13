@@ -52,6 +52,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(500)
 		fmt.Fprintln(w, err)
+		return
 	}
 
 	w.WriteHeader(200)
