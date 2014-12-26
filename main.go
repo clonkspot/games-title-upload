@@ -1,10 +1,10 @@
 package main
 
 import (
+	redis "github.com/fzzy/radix/extra/pool"
 	"log"
 	"net/http"
 	"os"
-	redis "github.com/fzzy/radix/extra/pool"
 )
 
 // The prefix which will be used in X-Accel-Redirect.

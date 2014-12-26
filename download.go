@@ -47,7 +47,7 @@ func memoizePath(url *url.URL, path string) {
 
 	query := url.Query()
 	if hash := query.Get("hash"); hash != "" {
-		client.Cmd("SETEX", "games-title:hash:" + hash, memoizeExpiry, path)
+		client.Cmd("SETEX", "games-title:hash:"+hash, memoizeExpiry, path)
 	}
 }
 
@@ -61,7 +61,7 @@ func retrievePath(url *url.URL) (path string, ok bool) {
 
 	query := url.Query()
 	if hash := query.Get("hash"); hash != "" {
-		path, err = client.Cmd("GET", "games-title:hash:" + hash).Str()
+		path, err = client.Cmd("GET", "games-title:hash:"+hash).Str()
 		if err == nil && path != "" {
 			ok = true
 		}
