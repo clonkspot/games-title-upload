@@ -10,7 +10,7 @@ import (
 var internalPrefix = defaultValue(os.Getenv("INTERNAL_PREFIX"), "/internal/")
 
 // The upload directory.
-var uploadPrefix = defaultValue(os.Getenv("UPLOAD_PREFIX"), "./incoming")
+var uploadPrefix = defaultValue(os.Getenv("UPLOAD_PREFIX"), "./incoming/")
 
 func defaultValue(val, def string) string {
 	if val == "" {
