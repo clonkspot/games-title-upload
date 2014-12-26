@@ -7,9 +7,17 @@ import (
 )
 
 // The prefix which will be used in X-Accel-Redirect.
-var internalPrefix = "/serve/"
+var internalPrefix = defaultValue(os.Getenv("INTERNAL_PREFIX"), "/internal/")
 // The upload directory.
-var uploadPrefix = "./incoming/"
+var uploadPrefix = defaultValue(os.Getenv("UPLOAD_PREFIX"), "./incoming")
+
+func defaultValue(val, def string) string {
+	if val == "" {
+		return def
+	} else {
+		return val
+	}
+}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
