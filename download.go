@@ -19,6 +19,8 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 	} else if p := uploadPrefix + path; fileExists(p) {
 		servePath(w, p)
 		memoizePath(r.URL, p)
+	} else if p, ok := retrievePath(r.URL); ok {
+		servePath(w, p)
 	} else {
 		w.WriteHeader(404)
 	}
@@ -47,4 +49,22 @@ func memoizePath(url *url.URL, path string) {
 	if hash := query.Get("hash"); hash != "" {
 		client.Cmd("SETEX", "games-title:hash:" + hash, memoizeExpiry, path)
 	}
+}
+
+// Tries to retrieve the path via Redis.
+func retrievePath(url *url.URL) (path string, ok bool) {
+	client, err := redisPool.Get()
+	if err != nil {
+		return
+	}
+	defer redisPool.Put(client)
+
+	query := url.Query()
+	if hash := query.Get("hash"); hash != "" {
+		path, err = client.Cmd("GET", "games-title:hash:" + hash).Str()
+		if err == nil && path != "" {
+			ok = true
+		}
+	}
+	return
 }
