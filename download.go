@@ -3,6 +3,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -55,6 +56,7 @@ func memoizePath(url *url.URL, path string) {
 func retrievePath(url *url.URL) (path string, ok bool) {
 	client, err := redisPool.Get()
 	if err != nil {
+		log.Println(err)
 		return
 	}
 	defer redisPool.Put(client)
