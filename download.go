@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 )
@@ -21,7 +20,6 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 
 func fileExists(path string) bool {
 	_, err := os.Stat(path)
-	fmt.Println(path, err)
 	return err == nil
 }
 
