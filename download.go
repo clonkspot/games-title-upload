@@ -3,9 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
-	"fmt"
 )
 
 func downloadHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +13,7 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 	if fileExists(path) {
 		servePath(w, path)
 	} else if fileExists(uploadPrefix + path) {
-		servePath(w, uploadPrefix + path)
+		servePath(w, uploadPrefix+path)
 	} else {
 		w.WriteHeader(404)
 	}
@@ -27,6 +27,6 @@ func fileExists(path string) bool {
 
 // Instructs nginx to serve the given path.
 func servePath(w http.ResponseWriter, path string) {
-	w.Header().Add("X-Accel-Redirect", internalPrefix + path)
+	w.Header().Add("X-Accel-Redirect", internalPrefix+path)
 	w.WriteHeader(200)
 }
