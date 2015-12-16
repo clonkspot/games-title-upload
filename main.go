@@ -13,6 +13,9 @@ var internalPrefix = defaultValue(os.Getenv("INTERNAL_PREFIX"), "/internal/")
 // The upload directory.
 var uploadPrefix = defaultValue(os.Getenv("UPLOAD_PREFIX"), "./incoming/")
 
+// Secret used to verify answers.
+var answerSecret = os.Getenv("ANSWER_SECRET")
+
 var redisNetwork = defaultValue(os.Getenv("REDIS_NETWORK"), "tcp")
 var redisAddress = defaultValue(os.Getenv("REDIS_ADDRESS"), "127.0.0.1:6379")
 var redisPool *redis.Pool
@@ -42,6 +45,17 @@ func main() {
 			downloadHandler(w, r)
 		case "POST":
 			uploadHandler(w, r)
+		default:
+			w.WriteHeader(400)
+		}
+	})
+
+	http.HandleFunc("/quiz", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case "GET":
+			quizHandler(w, r)
+		// case "POST":
+		// 	uploadHandler(w, r)
 		default:
 			w.WriteHeader(400)
 		}
