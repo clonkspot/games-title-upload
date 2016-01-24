@@ -34,7 +34,8 @@ func fileExists(path string) bool {
 
 // Instructs nginx to serve the given path.
 func servePath(w http.ResponseWriter, path string) {
-	w.Header().Add("Content-Type", "image/png")
+	// Invoke the browser's MIME Sniffing as we may be serving JPG or PNG.
+	w.Header().Add("Content-Type", "unknown/unknown")
 	w.Header().Add("X-Accel-Redirect", internalPrefix+path)
 	w.WriteHeader(200)
 }
