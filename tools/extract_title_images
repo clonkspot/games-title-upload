@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eu
+
+outdir=title_images
+
+for file in $(find -name Title.png -or -name Title.jpg | grep ocs); do
+  scenario=$(dirname "$file")
+  dir=$(dirname "$scenario")
+  mkdir -p "$outdir/$dir"
+  cp "$file" "$outdir/$scenario"
+  echo $scenario
+done
