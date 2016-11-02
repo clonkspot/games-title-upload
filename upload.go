@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"fmt"
 	"image/png"
+	"image/jpeg"
 	"io"
 	"log"
 	"net/http"
@@ -16,7 +17,7 @@ import (
 const filesizeLimit = 100 * 1024
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
-	// Check that the body is a PNG file with a maximum of 100KB.
+	// Check that the body is a PNG or JPEG file with a maximum of 100KB.
 	var buf bytes.Buffer
 
 	n, err := buf.ReadFrom(io.LimitReader(r.Body, filesizeLimit))
@@ -31,11 +32,15 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// First try PNG, then JPEG.
 	_, err = png.Decode(bytes.NewReader(buf.Bytes()))
 	if err != nil {
-		w.WriteHeader(400)
-		fmt.Fprintln(w, "File not a PNG image.")
-		return
+		_, err = jpeg.Decode(bytes.NewReader(buf.Bytes()))
+		if err != nil {
+			w.WriteHeader(400)
+			fmt.Fprintln(w, "File not a PNG or JPEG image.")
+			return
+		}
 	}
 
 	path := uploadPrefix + r.URL.Path
