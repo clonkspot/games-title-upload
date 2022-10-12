@@ -1,10 +1,11 @@
 package main
 
 import (
-	redis "github.com/fzzy/radix/extra/pool"
 	"log"
 	"net/http"
 	"os"
+
+	redis "github.com/fzzy/radix/extra/pool"
 )
 
 // The prefix which will be used in X-Accel-Redirect.
@@ -48,6 +49,6 @@ func main() {
 	})
 
 	port := os.Getenv("PORT")
-	log.Print("Listening on port " + port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Print("Listening on " + port)
+	log.Fatal(http.ListenAndServe(port, nil))
 }
